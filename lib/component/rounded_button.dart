@@ -68,6 +68,7 @@ class RoundedButton2 extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: size.width * 0.4,
+
       child: ClipRRect(
         borderRadius: BorderRadius.circular(29),
         child: TextButton(

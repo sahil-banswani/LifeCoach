@@ -98,143 +98,154 @@ class _LoginScreenState extends State<TabLoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               color: const Color(0xFF0236C6),
               child:  Padding(
                 padding: const EdgeInsets.only(top: 100.0),
-                child: Column(
-                  children: const [
-                    CircleAvatar(
-                      radius: 50.0,
-                      backgroundImage: AssetImage('assets/images/logo.png'),
+                child: Container(
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: const [
+                        CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage: AssetImage('assets/images/logo.png'),
+                        ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          'Step ahead  \n\n With\n \n  Dignity of \n Noble',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'Dignity\nof\nNoble',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: size.height * 0.06),
-                  const Center(
-                    child: Text(
-                      'LOGIN',
-                      style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.06),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
-                          width: size.width * 0.6,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(29),
-                          ),
-                          child: TextFormField(
-                            controller:
-                            TextEditingController(text: user2.email),
-                            onChanged: (value) {
-                              user2.email = value;
-                            },
-                            validator: (val) {
-                              if (val == null || val.isEmpty) {
-                                return 'Please Enter your Email';
-                              } else if (!RegExp(r'^[\w.-]+@[\w.-]+\.com$')
-                                  .hasMatch(val)) {
-                                return 'Please enter a valid email address';
-                              }
-                              //return null;
-                              return null;
-                            },
-                            decoration: const InputDecoration(
-                              icon: Icon(
-                                Icons.person,
-                                color: Colors.grey,
+            flex: 2,
+            child: Container(
+              padding: const EdgeInsets.only(top: 120),
+              child: SingleChildScrollView(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: size.height * 0.06),
+                      const Center(
+                        child: Text(
+                          'LOGIN',
+                          style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.06),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              width: size.width * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(29),
                               ),
-                              hintText: "Your Email",
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
-                          width: size.width * 0.6,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(29),
-                          ),
-                          child: TextFormField(
-                            controller:
-                            TextEditingController(text: user2.password),
-                            onChanged: (value) {
-                              user2.password = value;
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please Enter Your Password';
-                              } else if (value.length < 6) {
-                                return 'Password should be of 6 characters';
-                              }
-                              return null;
-                            },
-                            obscureText: isSecure,
-                            decoration: InputDecoration(
-                              icon: const Icon(
-                                Icons.lock,
-                                color: Colors.grey,
+                              child: TextFormField(
+                                controller:
+                                TextEditingController(text: user2.email),
+                                onChanged: (value) {
+                                  user2.email = value;
+                                },
+                                validator: (val) {
+                                  if (val == null || val.isEmpty) {
+                                    return 'Please Enter your Email';
+                                  } else if (!RegExp(r'^[\w.-]+@[\w.-]+\.com$')
+                                      .hasMatch(val)) {
+                                    return 'Please enter a valid email address';
+                                  }
+                                  //return null;
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                  icon: Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                  ),
+                                  hintText: "Your Email",
+                                  border: InputBorder.none,
+                                ),
                               ),
-                              hintText: "Your Password",
-                              border: InputBorder.none,
-                              suffixIcon: tooglePassword(),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              width: size.width * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(29),
+                              ),
+                              child: TextFormField(
+                                controller:
+                                TextEditingController(text: user2.password),
+                                onChanged: (value) {
+                                  user2.password = value;
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Your Password';
+                                  } else if (value.length < 6) {
+                                    return 'Password should be of 6 characters';
+                                  }
+                                  return null;
+                                },
+                                obscureText: isSecure,
+                                decoration: InputDecoration(
+                                  icon: const Icon(
+                                    Icons.lock,
+                                    color: Colors.grey,
+                                  ),
+                                  hintText: "Your Password",
+                                  border: InputBorder.none,
+                                  suffixIcon: tooglePassword(),
+                                ),
+                              ),
+                            ),
+                            RoundedButton2(
+                              text: "Login",
+                              press: () async {
+                                setState(() {
+                                  loading = true;
+                                });
+                                if (_formKey.currentState!.validate()) {
+                                  await save();
+                                }
+                                setState(() {
+                                  loading = false;
+                                });
+                              },
+                              loading: loading,
+                            ),
+                            SizedBox(height: size.height * 0.03),
+                          ],
                         ),
-                        RoundedButton2(
-                          text: "Login",
-                          press: () async {
-                            setState(() {
-                              loading = true;
-                            });
-                            if (_formKey.currentState!.validate()) {
-                              await save();
-                            }
-                            setState(() {
-                              loading = false;
-                            });
-                          },
-                          loading: loading,
-                        ),
-                        SizedBox(height: size.height * 0.03),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

@@ -101,11 +101,11 @@ class _LoginScreenState extends State<MobileLoginScreen> {
                 ),
                 SizedBox(height: 10.0),
                 Text(
-                  'Dignity\nof\nNoble',
+                  'Step ahead \nWith\n Dignity of\nNoble',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 30,
                     color: Colors.white,
                   ),
                 ),
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.only(top: 120), // Adjust the top padding as needed
+        padding: const EdgeInsets.only(top: 150), // Adjust the top padding as needed
         child:
         SingleChildScrollView(
           child: Column(

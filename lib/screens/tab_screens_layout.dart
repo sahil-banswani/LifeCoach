@@ -16,6 +16,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
   List<Map<String, String>> responseData = [];
   List<List<Map<String, String>>> secondResponseData = [];
   int selectedIndex = 0;
+  List<bool> isContentVisible = [];
 
   @override
   void initState() {
@@ -74,6 +75,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
         }).toList();
         setState(() {
           responseData = dataList;
+          isContentVisible = List.generate(responseData.length, (_) => false);
         });
       }
 
@@ -296,42 +298,71 @@ class _HomeScreenState extends State<TabScreenLayout> {
                             },
                           ),
                           Expanded(
-                            child: TabBarView(
-                              children: secondResponseData.isNotEmpty
-                                  ? [
-                                for (final secondResponse in secondResponseData)
-                                  SingleChildScrollView(
+                            child: Container(
+                              color: Colors.black,
+                              child: TabBarView(
+                                children: secondResponseData.isNotEmpty
+                                    ? List.generate(secondResponseData.length, (i) {
+                                  final secondResponse = secondResponseData[i];
+                                  return SingleChildScrollView(
                                     child: Column(
                                       children: [
                                         for (final response in secondResponse)
                                           Column(
                                             children: [
                                               const SizedBox(height: 20),
-                                              Center(
-                                                child: Text(
-                                                  response['name'] ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${response['name'] ?? ''} :',
+                                                    style: const TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        isContentVisible[i] = !isContentVisible[i];
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                      isContentVisible[i]
+                                                          ? Icons.arrow_drop_down
+                                                          : Icons.arrow_drop_up,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              const SizedBox(height: 10),
-                                              HtmlWidget(
-                                                response['content'] ?? '',
-                                                webView: true,
+                                              if (isContentVisible[i])
+                                                const SizedBox(height: 10),
+                                              AnimatedCrossFade(
+                                                duration: const Duration(milliseconds: 300),
+                                                crossFadeState: isContentVisible[i]
+                                                    ? CrossFadeState.showFirst
+                                                    : CrossFadeState.showSecond,
+                                                firstChild: HtmlWidget(
+                                                  '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
+                                                  webView: true,
+                                                ),
+                                                secondChild: Container(),
                                               ),
                                             ],
                                           ),
                                         const SizedBox(height: 20),
                                       ],
                                     ),
+                                  );
+                                })
+                                    : [
+                                  const Center(
+                                    child: Text('No data available'),
                                   ),
-                              ]
-                                  : [
-                                const Center(
-                                  child: Text('No data available'),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
