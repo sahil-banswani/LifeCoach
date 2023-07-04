@@ -45,7 +45,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         const SnackBar(
           content: Text('Signin successful'),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.blue, // Set the background color to blue
+          backgroundColor: Color(0xFF08154A), // Set the background color to blue
         ),
       );
       // ignore: use_build_context_synchronously
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         const SnackBar(
           content: Text('User not found'),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.blue, // Set the background color to blue
+          backgroundColor: Color(0xFF08154A), // Set the background color to blue
         ),
       );
     } else if (res.statusCode == 401) {
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         const SnackBar(
           content: Text('email or invalid password'),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.blue, // Set the background color to blue
+          backgroundColor:Color(0xFF08154A), // Set the background color to blue
         ),
       );
     }
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         const SnackBar(
           content: Text('Signin failed'),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.blue, // Set the background color to blue
+          backgroundColor: Color(0xFF08154A), // Set the background color to blue
         ),
       );
     }
@@ -86,11 +86,12 @@ class _LoginScreenState extends State<MobileLoginScreen> {
       appBar: AppBar(
         title: const Text('Life Coach'),
         centerTitle: true,
+        backgroundColor: const Color(0xFF08154A),
         // backgroundColor: Colors.blue,
       ),
       drawer: Drawer(
         child: Container(
-          color: const Color(0xFF0236C6),
+          color: const Color(0xFF08154A),
           child:  Padding(
             padding: const EdgeInsets.only(top: 100.0),
             child: Column(
@@ -125,7 +126,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
               const Center(
                 child: Text(
                   'LOGIN',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22,color: Color(0xFF08154A)),
                 ),
               ),
               SizedBox(height: size.height * 0.03),
@@ -238,7 +239,7 @@ class _LoginScreenState extends State<MobileLoginScreen> {
         isSecure = !isSecure;
       });
     }, icon: isSecure ? const Icon( Icons.visibility_off_rounded) : const Icon( Icons.visibility_rounded),
-      color :  Colors.lightBlueAccent,
+      color : const Color(0xFF08154A),
     );
   }
 }

@@ -58,7 +58,7 @@ class _HomeScreenLayoutState extends State<MobileScreenLayout> {
         fontWeight: FontWeight.bold,
       ),
       ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF08154A),
       ),
     );
     setState(() {});
@@ -89,7 +89,7 @@ class _HomeScreenLayoutState extends State<MobileScreenLayout> {
           gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-            colors: [Colors.blue, const Color(0xFF263DDE).withOpacity(0.2)],
+            colors: [const Color(0xFF08154A), const Color(0xFF08154A).withOpacity(0.2)],
       ),
       ),
       ),
@@ -239,6 +239,8 @@ class _HomeScreenLayoutState extends State<MobileScreenLayout> {
         child: Scaffold(
         appBar: AppBar(
           title: const Text('Home'),
+          centerTitle: true,
+          backgroundColor: const Color(0xFF08154A),
           leading: IconButton(
             onPressed: _handleMenuButtonPressed,
             icon: ValueListenableBuilder<AdvancedDrawerValue>(

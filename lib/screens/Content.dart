@@ -125,12 +125,9 @@ class _ContentState extends State<Content> {
       appBar: AppBar(
         title: const Text('Home'),
         centerTitle: true,
+        backgroundColor: const Color(0xFF08154A),
       ),
-      body: responseData.isEmpty
-          ? const Center(
-        child: Text('No data available'),
-      )
-          : DefaultTabController(
+      body: DefaultTabController(
         length: responseData.length,
         child: Column(
           children: [
@@ -152,7 +149,7 @@ class _ContentState extends State<Content> {
                       data['name'] ?? " ",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF265DD1),
+                        color: Color(0xFF08154A),
                       ),
                     ),
                   ),
@@ -167,7 +164,7 @@ class _ContentState extends State<Content> {
             ),
             Expanded(
               child: Container(
-                color: Colors.black,
+                color: Colors.white,
                 child: TabBarView(
                   children: secondResponseData.isNotEmpty
                       ? List.generate(secondResponseData.length, (i) {
@@ -191,7 +188,7 @@ class _ContentState extends State<Content> {
                                         '${response['name'] ?? ''} :',
                                         style: const TextStyle(
                                           fontSize: 20,
-                                          color: Colors.white,
+                                          color: Color(0xFF08154A),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -207,7 +204,7 @@ class _ContentState extends State<Content> {
                                         isContentVisible[i]
                                             ? Icons.arrow_drop_down
                                             : Icons.arrow_drop_up,
-                                        color: Colors.white,
+                                        color: const Color(0xFF08154A),
                                       ),
                                     ),
                                   ],
@@ -227,7 +224,7 @@ class _ContentState extends State<Content> {
                                           '');
                                     },
                                     child: HtmlWidget(
-                                      '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
+                                      '<div style="text-align: center;color:#08154A;font-size: 18px">${response['content'] ?? ''}</div>',
                                       webView: true,
                                     ),
                                   ),
@@ -242,7 +239,7 @@ class _ContentState extends State<Content> {
                   })
                       : [
                     const Center(
-                      child: Text('No data available'),
+                      child: Text('No data available',style: TextStyle(color: Color(0xFF08154A),fontWeight: FontWeight.bold),),
                     ),
                   ],
                 ),

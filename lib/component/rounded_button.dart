@@ -11,7 +11,7 @@ class RoundedButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.press,
-    this.color = Colors.blue,
+    this.color = const Color(0xFF08154A),
     this.textColor = Colors.white,
     this.loading = false,
   }) : super(key: key);
@@ -57,7 +57,7 @@ class RoundedButton2 extends StatelessWidget {
     Key? key,
     required this.text,
     required this.press,
-    this.color = Colors.blue,
+    this.color = const Color(0xFF08154A),
     this.textColor = Colors.white,
     this.loading = false,
   }) : super(key: key);

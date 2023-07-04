@@ -166,7 +166,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor:Color(0xFF08154A),
       ),
     );
   }
@@ -178,6 +178,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Home'),
+          backgroundColor: const Color(0xFF08154A),
           centerTitle: true,
         ),
         body: Row(
@@ -186,7 +187,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
               flex: 1,
               child: SafeArea(
                 child: Container(
-                  color: Colors.blue, // Customize the color for the drawer
+                  color: const Color(0xFF08154A), // Customize the color for the drawer
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: ListView(
@@ -305,11 +306,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
               flex: 2,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: responseData.isEmpty
-                    ? const Center(
-                        child: Text('No data available'),
-                      )
-                    : DefaultTabController(
+                child: DefaultTabController(
                       length: responseData.length,
                       child: Column(
                         children: [
@@ -332,7 +329,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                         data['name'] ?? " ",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF265DD1),
+                                          color:Color(0xFF08154A),
                                         ),
                                       ),
                                     ),
@@ -347,7 +344,6 @@ class _HomeScreenState extends State<TabScreenLayout> {
                           ),
                           Expanded(
                             child: Container(
-                              color: Colors.black,
                               child: TabBarView(
                                 children: secondResponseData.isNotEmpty
                                     ? List.generate(secondResponseData.length, (i) {
@@ -370,8 +366,9 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                                       '${response['name'] ?? ''} :',
                                                       style: const TextStyle(
                                                         fontSize: 20,
-                                                        color: Colors.white,
+                                                        color: Color(0xFF08154A),
                                                         fontWeight: FontWeight.bold,
+
                                                       ),
                                                     ),
                                                   ),
@@ -385,7 +382,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                                       isContentVisible[i]
                                                           ? Icons.arrow_drop_down
                                                           : Icons.arrow_drop_up,
-                                                      color: Colors.white,
+                                                      color: const Color(0xFF08154A),
                                                     ),
                                                   ),
                                                 ],
@@ -403,7 +400,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                                         '');
                                                   },
                                                   child: HtmlWidget(
-                                                    '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
+                                                    '<div style="text-align: center;color: #08154A;font-size: 18px">${response['content'] ?? ''}</div>',
                                                     webView: true,
                                                   ),
                                                 ),
@@ -418,7 +415,7 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                 })
                                     : [
                                   const Center(
-                                    child: Text('No data available'),
+                                    child: Text('No data available',style: TextStyle(color: Color(0xFF08154A),fontWeight: FontWeight.bold),),
                                   ),
                                 ],
                               ),
