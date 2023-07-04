@@ -103,7 +103,7 @@ class _LoginScreenState extends State<TabLoginScreen> {
               color: const Color(0xFF0236C6),
               child:  Padding(
                 padding: const EdgeInsets.only(top: 100.0),
-                child: Container(
+                child: SizedBox(
                   height: double.infinity,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,

@@ -4,6 +4,9 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'dart:convert';
 import '../widgets/logoutbutton.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:html/parser.dart' as htmlParser;
+
 
 class TabScreenLayout extends StatefulWidget {
   final int id;
@@ -17,11 +20,56 @@ class _HomeScreenState extends State<TabScreenLayout> {
   List<List<Map<String, String>>> secondResponseData = [];
   int selectedIndex = 0;
   List<bool> isContentVisible = [];
+  bool isSpeaking = false;
+  final _flutterTts = FlutterTts();
+
+  void initializeTts() {
+    _flutterTts.setStartHandler(() {
+      setState(() {
+        isSpeaking = true;
+      });
+    });
+    _flutterTts.setCompletionHandler(() {
+      setState(() {
+        isSpeaking = false;
+      });
+    });
+    _flutterTts.setErrorHandler((message) {
+      setState(() {
+        isSpeaking = false;
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     fetchData();
+  }
+  void speak(String text) async {
+    final strippedText = _stripHtmlTags(text);
+    await _flutterTts.speak(strippedText);
+  }
+
+  String _stripHtmlTags(String htmlText) {
+    final regex = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    final parsedText = htmlParser.parse(htmlText);
+    final strippedText = parsedText.body!.text.trim();
+    final normalizedText = strippedText.replaceAll(regex, '');
+    return normalizedText;
+  }
+
+  void stop() async {
+    await _flutterTts.stop();
+    setState(() {
+      isSpeaking = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _flutterTts.stop();
   }
 
   Future<List<Map<String, dynamic>>> lifeCoachRoutes() async {
@@ -314,12 +362,17 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    '${response['name'] ?? ''} :',
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      speak(response['name'] ?? '');
+                                                    },
+                                                    child: Text(
+                                                      '${response['name'] ?? ''} :',
+                                                      style: const TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
                                                   ),
                                                   GestureDetector(
@@ -344,9 +397,15 @@ class _HomeScreenState extends State<TabScreenLayout> {
                                                 crossFadeState: isContentVisible[i]
                                                     ? CrossFadeState.showFirst
                                                     : CrossFadeState.showSecond,
-                                                firstChild: HtmlWidget(
-                                                  '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
-                                                  webView: true,
+                                                firstChild: GestureDetector(
+                                                  onTap: () {
+                                                    speak(response['content'] ??
+                                                        '');
+                                                  },
+                                                  child: HtmlWidget(
+                                                    '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
+                                                    webView: true,
+                                                  ),
                                                 ),
                                                 secondChild: Container(),
                                               ),

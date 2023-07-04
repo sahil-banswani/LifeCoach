@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:html/parser.dart' as htmlParser;
 
 class Content extends StatefulWidget {
   final int id;
@@ -19,12 +19,59 @@ class _ContentState extends State<Content> {
   List<List<Map<String, String>>> secondResponseData = [];
   int selectedIndex = 0;
   List<bool> isContentVisible = [];
+  bool isSpeaking = false;
+  final _flutterTts = FlutterTts();
+
+  void initializeTts() {
+    _flutterTts.setStartHandler(() {
+      setState(() {
+        isSpeaking = true;
+      });
+    });
+    _flutterTts.setCompletionHandler(() {
+      setState(() {
+        isSpeaking = false;
+      });
+    });
+    _flutterTts.setErrorHandler((message) {
+      setState(() {
+        isSpeaking = false;
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     fetchData();
   }
+
+  void speak(String text) async {
+    final strippedText = _stripHtmlTags(text);
+    await _flutterTts.speak(strippedText);
+  }
+
+  String _stripHtmlTags(String htmlText) {
+    final regex = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    final parsedText = htmlParser.parse(htmlText);
+    final strippedText = parsedText.body!.text.trim();
+    final normalizedText = strippedText.replaceAll(regex, '');
+    return normalizedText;
+  }
+
+  void stop() async {
+    await _flutterTts.stop();
+    setState(() {
+      isSpeaking = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _flutterTts.stop();
+  }
+
   Future<void> fetchData() async {
     try {
       final firstUri = Uri.parse(
@@ -40,7 +87,8 @@ class _ContentState extends State<Content> {
         }).toList();
         setState(() {
           responseData = dataList;
-          isContentVisible = List.generate(responseData.length, (_) => false);
+          isContentVisible =
+              List.generate(responseData.length, (_) => false);
         });
       }
 
@@ -63,12 +111,14 @@ class _ContentState extends State<Content> {
       }));
 
       setState(() {
-        secondResponseData = secondResponseList.cast<List<Map<String, String>>>();
+        secondResponseData =
+            secondResponseList.cast<List<Map<String, String>>>();
       });
     } catch (err) {
       print(err);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,24 +139,24 @@ class _ContentState extends State<Content> {
               tabs: responseData
                   .map(
                     (data) => Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        constraints: const BoxConstraints.expand(
-                          width: 150,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE6ECF9),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Text(
-                          data['name'] ?? " ",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF265DD1),
-                          ),
-                        ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    constraints: const BoxConstraints.expand(
+                      width: 150,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE6ECF9),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Text(
+                      data['name'] ?? " ",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF265DD1),
                       ),
                     ),
+                  ),
+                ),
               )
                   .toList(),
               onTap: (index) {
@@ -130,20 +180,27 @@ class _ContentState extends State<Content> {
                               children: [
                                 const SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      '${response['name'] ?? ''} :',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                    GestureDetector(
+                                      onTap: () {
+                                        speak(response['name'] ?? '');
+                                      },
+                                      child: Text(
+                                        '${response['name'] ?? ''} :',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          isContentVisible[i] = !isContentVisible[i];
+                                          isContentVisible[i] =
+                                          !isContentVisible[i];
                                         });
                                       },
                                       child: Icon(
@@ -158,13 +215,21 @@ class _ContentState extends State<Content> {
                                 if (isContentVisible[i])
                                   const SizedBox(height: 10),
                                 AnimatedCrossFade(
-                                  duration: const Duration(milliseconds: 300),
-                                  crossFadeState: isContentVisible[i]
+                                  duration: const Duration(
+                                      milliseconds: 300),
+                                  crossFadeState:
+                                  isContentVisible[i]
                                       ? CrossFadeState.showFirst
                                       : CrossFadeState.showSecond,
-                                  firstChild: HtmlWidget(
-                                    '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
-                                    webView: true,
+                                  firstChild: GestureDetector(
+                                    onTap: () {
+                                      speak(response['content'] ??
+                                          '');
+                                    },
+                                    child: HtmlWidget(
+                                      '<div style="text-align: center;color: white;font-size: 18px">${response['content'] ?? ''}</div>',
+                                      webView: true,
+                                    ),
                                   ),
                                   secondChild: Container(),
                                 ),
